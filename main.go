@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/gorilla/mux"
 	"log"
@@ -35,4 +36,9 @@ func main() {
 
 	fmt.Println("Starting server at port 8000")
 	log.Fatal(http.ListenAndServe(":8000", r))
+}
+
+func getMovies(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(movies)
 }
