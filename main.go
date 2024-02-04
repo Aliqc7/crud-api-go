@@ -5,7 +5,9 @@ import (
 	"fmt"
 	"github.com/gorilla/mux"
 	"log"
+	"math/rand"
 	"net/http"
+	"strconv"
 )
 
 type Movie struct {
@@ -64,4 +66,17 @@ func getMovie(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
+}
+
+func createMovie(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	var movie Movie
+	_ = json.NewDecoder(r.Body).Decode(&movie)
+
+	//TODO: modify the ID genration using uuid (github.com/google/uuid)
+	// movie.ID = uuid.New().String()
+
+	movie.ID = strconv.Itoa(rand.Intn(10000000))
+	movies = append(movies, movie)
+	json.NewEncoder(w).Encode(movies)
 }
